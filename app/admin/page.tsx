@@ -88,6 +88,8 @@ function SortableImageItem({
 export default function AdminPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isEditing, setIsEditing] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
   const [currentProject, setCurrentProject] = useState<Partial<Project>>({
     title: '',
     description: '',
@@ -113,8 +115,31 @@ export default function AdminPage() {
   );
 
   useEffect(() => {
+    // Check if already authenticated in this session
+    const auth = sessionStorage.getItem('admin_auth');
+    if (auth === 'true') {
+      setIsAuthenticated(true);
+    }
     loadProjects();
   }, []);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Simple password check - you can change this password
+    if (passwordInput === 'admin2024') {
+      setIsAuthenticated(true);
+      sessionStorage.setItem('admin_auth', 'true');
+      setPasswordInput('');
+    } else {
+      alert('Feil passord!');
+      setPasswordInput('');
+    }
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    sessionStorage.removeItem('admin_auth');
+  };
 
   const loadProjects = () => {
     const stored = getProjects();
@@ -280,6 +305,51 @@ export default function AdminPage() {
     }
   };
 
+  // Show login form if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-black px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="w-full max-w-md rounded-2xl bg-white/5 p-8 backdrop-blur-sm"
+        >
+          <h1 className="mb-6 text-center text-3xl font-light text-white">
+            Admin Login
+          </h1>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-300">
+                Passord
+              </label>
+              <input
+                type="password"
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                className="w-full rounded-lg bg-white/10 px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                placeholder="Skriv inn passord"
+                required
+                autoFocus
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full rounded-lg bg-cyan-500 px-6 py-3 font-medium text-white transition-colors hover:bg-cyan-600"
+            >
+              Logg inn
+            </button>
+          </form>
+          <a
+            href="/"
+            className="mt-6 block text-center text-sm text-gray-400 hover:text-cyan-400 transition-colors"
+          >
+            ← Tilbake til Portfolio
+          </a>
+        </motion.div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-black py-12 px-6">
       <div className="mx-auto max-w-6xl">
@@ -291,12 +361,21 @@ export default function AdminPage() {
           <h1 className="mb-4 text-4xl font-light tracking-wide text-white">
             Admin Panel
           </h1>
-          <a
-            href="/"
-            className="text-cyan-400 hover:text-cyan-300 transition-colors"
-          >
-            ← Back to Portfolio
-          </a>
+          <div className="flex items-center justify-center gap-4">
+            <a
+              href="/"
+              className="text-cyan-400 hover:text-cyan-300 transition-colors"
+            >
+              ← Back to Portfolio
+            </a>
+            <span className="text-gray-600">|</span>
+            <button
+              onClick={handleLogout}
+              className="text-red-400 hover:text-red-300 transition-colors"
+            >
+              Logg ut
+            </button>
+          </div>
         </motion.div>
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">

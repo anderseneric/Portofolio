@@ -1,41 +1,59 @@
 import { Project } from '@/types';
 
-// TEMPORARY: Dummy projects for design preview - will be removed later
 export const dummyProjects: Project[] = [
   {
-    id: '1',
-    title: 'E-Commerce Platform',
-    description: 'A modern e-commerce platform built with Next.js and Stripe integration',
-    image: '/projects/ecommerce.jpg',
-    images: ['/projects/ecommerce.jpg'],
-    tags: ['Next.js', 'TypeScript', 'Stripe', 'Tailwind'],
-    link: 'https://example.com'
-  },
-  {
-    id: '2',
-    title: 'AI Chat Application',
-    description: 'Real-time chat application powered by AI with natural language processing',
-    image: '/projects/ai-chat.jpg',
-    images: ['/projects/ai-chat.jpg'],
-    tags: ['React', 'OpenAI', 'WebSocket', 'Node.js'],
-    link: 'https://example.com'
-  },
-  {
-    id: '3',
-    title: 'Portfolio Dashboard',
-    description: 'Analytics dashboard for tracking portfolio performance with real-time data',
-    image: '/projects/dashboard.jpg',
-    images: ['/projects/dashboard.jpg'],
-    tags: ['React', 'D3.js', 'Firebase', 'Material-UI'],
-    link: 'https://example.com'
-  },
-  {
-    id: '4',
-    title: 'Task Management System',
-    description: 'Collaborative task management tool with team features and Kanban boards',
-    image: '/projects/tasks.jpg',
-    images: ['/projects/tasks.jpg'],
-    tags: ['Vue.js', 'Express', 'MongoDB', 'Socket.io'],
-    link: 'https://example.com'
+    id: 'trading-ai',
+    title: "Eric's Trading AI",
+    description: `## Overview
+
+Full-stack swing trading platform for the Norwegian stock market. Combines real-time data with AI-driven sentiment analysis to identify trading opportunities. Track any Norwegian stocks in your portfolio - **currently demonstrated with a 25,000 NOK portfolio** featuring MOWI, Vår Energi, and Yara.
+
+## Key Features
+
+- **Real-time Portfolio Tracking** - Live P&L analysis and performance metrics
+- **AI Sentiment Analysis** - Claude Sonnet 4.5 analyzes market news sentiment
+- **Automated News Scraping** - Monitors Newsweb continuously with Puppeteer
+- **Smart "Top Movers" Detection** - Identifies significant price/volume changes
+- **Interactive AI Assistant** - Chat-based portfolio insights
+- **Automated Notifications** - Real-time alerts for market events
+
+## Technical Stack
+
+Built with modern web technologies for performance and scalability
+
+### Frontend
+- React with TypeScript
+- Tailwind CSS
+- Interactive particle background
+
+### Backend
+- Node.js & Express
+- SQLite database
+- Node-cron scheduling
+
+### AI & Automation
+- Anthropic Claude API
+- Puppeteer web scraping
+- Custom market algorithms`,
+    image: '/projects/trading.png',
+    images: [
+      '/projects/trading.png',
+      '/projects/chatbot.png',
+      '/projects/portofolio.png',
+      '/projects/performance.png',
+      '/projects/news.png',
+      '/projects/recommendations.png',
+      '/projects/analytics.png'
+    ],
+    tags: ['React', 'TypeScript', 'Node.js', 'Express', 'SQLite', 'Claude API', 'Puppeteer', 'Tailwind CSS'],
+    githubUrl: 'https://github.com/anderseneric',
+    features: [
+      'Real-time Portfolio Tracking with live P&L',
+      'AI Sentiment Analysis using Claude Sonnet 4.5',
+      'Automated News Scraping with Puppeteer',
+      'Smart Top Movers Detection',
+      'Interactive AI Assistant',
+      'Automated Market Notifications'
+    ]
   }
 ];
