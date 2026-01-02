@@ -101,6 +101,8 @@ export default function AdminPage() {
   const [tagInput, setTagInput] = useState('');
   const [imageInput, setImageInput] = useState('');
   const [featureInput, setFeatureInput] = useState('');
+  const [sectionTitleInput, setSectionTitleInput] = useState('');
+  const [sectionContentInput, setSectionContentInput] = useState('');
 
   // DnD Sensors
   const sensors = useSensors(
@@ -178,10 +180,13 @@ export default function AdminPage() {
       link: '',
       githubUrl: '',
       features: [],
+      sections: [],
     });
     setTagInput('');
     setImageInput('');
     setFeatureInput('');
+    setSectionTitleInput('');
+    setSectionContentInput('');
     setIsEditing(false);
   };
 
@@ -233,6 +238,27 @@ export default function AdminPage() {
     setCurrentProject({
       ...currentProject,
       features: currentProject.features?.filter((_, i) => i !== index),
+    });
+  };
+
+  const addSection = () => {
+    if (sectionTitleInput.trim() && sectionContentInput.trim()) {
+      setCurrentProject({
+        ...currentProject,
+        sections: [
+          ...(currentProject.sections || []),
+          { title: sectionTitleInput.trim(), content: sectionContentInput.trim() },
+        ],
+      });
+      setSectionTitleInput('');
+      setSectionContentInput('');
+    }
+  };
+
+  const removeSection = (index: number) => {
+    setCurrentProject({
+      ...currentProject,
+      sections: currentProject.sections?.filter((_, i) => i !== index),
     });
   };
 
@@ -303,7 +329,7 @@ export default function AdminPage() {
 
               <div>
                 <label className="mb-2 block text-sm font-medium text-gray-300">
-                  Description *
+                  Description * (Markdown supported)
                 </label>
                 <textarea
                   value={currentProject.description || ''}
@@ -313,11 +339,19 @@ export default function AdminPage() {
                       description: e.target.value,
                     })
                   }
-                  className="w-full rounded-lg bg-white/10 px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                  placeholder="Project Description"
-                  rows={3}
+                  className="w-full rounded-lg bg-white/10 px-4 py-2 font-mono text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                  placeholder="Use Markdown for formatting:
+## Heading
+**Bold text**
+*Italic text*
+- List item
+1. Numbered item"
+                  rows={12}
                   required
                 />
+                <p className="mt-1 text-xs text-gray-500">
+                  Tip: Use ## for headings, **bold**, *italic*, - for lists
+                </p>
               </div>
 
               {/* MULTIPLE IMAGES */}
